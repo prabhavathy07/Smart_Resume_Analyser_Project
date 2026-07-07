@@ -1,0 +1,60 @@
+<! DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Smart Resume Analyzer</title>
+
+    <link rel = "stylesheet" href = "{{ url_for('static' , filename = 'style.css') }}">
+
+</head>
+
+<body>
+
+    <div class = "container">
+
+        <h1>Smart Resume Analyzer</h1>
+
+        <p>Analyze your resume and improve your chances of getting hired.</p>
+    
+        <form action = "/analyze" method = "post" enctype = "multipart/form-data">
+
+            <label><b>Select Job Role</b></label>
+
+<br><br>
+
+<select name="job_role" required>
+
+    <option value="">-- Select Role --</option>
+
+    <option value="Python Developer">Python Developer</option>
+
+    <option value="Data Analyst">Data Analyst</option>
+
+    <option value="Web Developer">Web Developer</option>
+
+</select>
+
+<br><br>
+
+            <input type="file" name="resume" accept=".txt,.pdf" required>
+            <br><br>
+            <label>Email</label>
+<label>Email Address</label><br>
+
+<input
+    type="email"
+    name="email"
+    placeholder="Enter your email"
+    required
+>
+
+            <button type = "submit">Analyze Resume</button> 
+        
+            </form>
+
+        </div>
+
+</body>
+
+</html>

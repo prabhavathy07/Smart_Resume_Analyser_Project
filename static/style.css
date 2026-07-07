@@ -1,0 +1,167 @@
+body{
+    font-family: Arial, sans-serif;
+    background:#dfefff;
+    margin:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.container{
+    background:white;
+    width:700px;
+    padding:40px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+h1{
+    color:#0d47a1;
+    margin-bottom:20px;
+}
+
+h2{
+    color:#111;
+}
+
+h3{
+    color:#0d47a1;
+    margin-top:30px;
+}
+
+ul{
+    list-style:none;
+    padding:0;
+    margin:20px auto;
+    width:300px;
+}
+
+li{
+    list-style: none;
+    font-size:20px;
+    margin:10px 0;
+    text-align:center;
+}
+
+p{
+    font-size:20px;
+}
+
+button{
+    background:#0d47a1;
+    color:white;
+    border:none;
+    padding:12px 30px;
+    border-radius:8px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1565c0;
+}
+
+a{
+    text-decoration:none;
+    color:#0d47a1;
+    font-weight:bold;
+    font-size:18px;
+}
+
+a:hover{
+    color:#1565c0;
+}
+
+ul{
+    list-style:none;
+    padding:0;
+    width:300px;
+    margin:20px auto;
+}
+
+li{
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:10px;
+    font-size:22px;
+    margin:10px 0;
+}
+
+.score-box {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    color: white;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.score-box:hover {
+    transform: scale(1.05);
+}
+
+.progress{
+    width:300px;
+    height:18px;
+    background:#ddd;
+    border-radius:10px;
+    margin:20px auto;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    border-radius:10px;
+    transition:width 0.5s;
+}
+
+.skill-list {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+}
+
+.skill-list li {
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+/* Found skills */
+.found {
+    background: #d4edda;
+    color: #155724;
+    border-left: 5px solid #28a745;
+}
+
+/* Missing skills */
+.missing {
+    background: #f8d7da;
+    color: #721c24;
+    border-left: 5px solid #dc3545;
+}
+
+.question-box{
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    line-height: 1.8;
+    font-size: 17px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Resume History</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Resume Analysis History</h1>
+
+<table border="1" cellpadding="10">
+
+<tr>
+
+<th>ID</th>
+
+<th>Job Role</th>
+
+<th>Resume Score</th>
+
+<th>ATS Score</th>
+
+</tr>
+
+{% for row in history %}
+
+<tr>
+
+<td>{{ row[0] }}</td>
+
+<td>{{ row[1] }}</td>
+
+<td>{{ row[2] }}%</td>
+
+<td>{{ row[3] }}%</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="/">⬅ Back to Home</a>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+Name: Prabhavathy
+
+Skills:
+Python
+SQL
+HTML
+CSS
+Git
+Flask
+
+Education:
+B.E Chemical Engineering
+
+Projects:
+Smart Resume Analyzer

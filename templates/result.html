@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Resume Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Resume Analysis Report</h1>
+
+   <h3>Selected Job Role</h3>
+
+<p style="font-size:22px; color:#6f42c1;">
+    <b>{{ job_role }}</b>
+</p>
+
+<h3>Required Skills for {{ job_role }}</h3>
+
+<ul>
+    {% for skill in required_skills %}
+    <li>⭐ {{ skill }}</li>
+    {% endfor %}
+</ul>
+
+<h3>Skill Match</h3>
+
+<p><b>{{ match_percentage }}%</b></p>
+
+<div class="progress">
+    <div class="progress-fill"
+         style="width: {{ match_percentage }}%; background:#17a2b8;">
+    </div>
+</div>
+
+<h3>Matched Skills</h3>
+
+<ul class="skill-list">
+    {% for skill in found_skills %}
+    <li class="found">✔ {{ skill }}</li>
+    {% endfor %}
+</ul>
+<h2>Resume Score</h2>
+
+<div class="score-box" style="background: {{ score_color }};">
+    {{ score }}%
+</div>
+
+<div class="progress">
+    <div class="progress-fill" style="width: {{ score }}%; background: {{ score_color }};"></div>
+</div>
+
+<h2>ATS Score</h2>
+
+<div class="score-box" style="background:#6f42c1;">
+    {{ ats }}%
+</div>
+
+<div class="progress">
+    <div class="progress-fill" style="width: {{ ats }}%; background:#6f42c1;"></div>
+</div>
+
+<h3>Skills Found</h3>
+
+
+    <ul>
+        {% for skill in found_skills %}
+        <li>✔ {{ skill }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Missing Skills</h3>
+
+    <ul>
+        {% for skill in missing_skills %}
+        <li>✖ {{ skill }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Suggestion</h3>
+
+<p>{{ suggestion }}</p>
+
+<h3>🤖 AI Resume Suggestions</h3>
+
+<div style="background:#f4f4f4; padding:15px; border-radius:10px; text-align:left; white-space:pre-wrap;">
+    {{ ai_suggestion }}
+</div>
+
+<br>
+
+<form action="/download">
+    <button type="submit">📄 Download Report</button>
+</form>
+
+<br><br>
+
+<a href="/history">
+    <button type="button">📜 View Resume History</button>
+
+</a>
+
+<br><br>
+
+<form action="/interview" method="POST">
+
+    <input
+        type="hidden"
+        name="job_role"
+        value="{{ job_role }}"
+    >
+
+    <button type="submit">
+        🤖 Generate Interview Questions
+    </button>
+
+</form>
+
+<br><br>
+
+<form action="/rewrite"
+      method="POST"
+      enctype="multipart/form-data">
+
+    <input
+        type="file"
+        name="resume"
+        required
+    >
+
+    <button type="submit">
+        ✨ AI Rewrite Resume
+    </button>
+
+</form>
+<br><br>
+
+<h3>Resume Analysis Chart</h3>
+
+<img src="{{ url_for('static', filename='images/chart.png') }}"
+     width="450">
+
+<br><br>
+
+<a href="/">Analyze Another Resume</a>
+</div>
+
+</body>
+
+</html>

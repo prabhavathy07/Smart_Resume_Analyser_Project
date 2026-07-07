@@ -1,0 +1,18 @@
+=== Smart Resume Analyser ===
+
+Skills Found:
+-Python
+-SQL
+
+Resume Score: 50/100
+
+Missing Skills:
+-Excel
+-Java
+-HTML
+-CSS
+-JavaScript
+-Flask
+-Git
+-Machine Learning
+-Data Science

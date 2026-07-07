@@ -1,0 +1,18 @@
+Name: allice
+
+Education:
+Bachelor of Computer science (BCS)
+
+Skills:
+Python
+SQL
+Excel
+
+Projects:
+Smart Resume Analyzer
+
+Certifications:
+Data Science Course
+
+Email:
+allice@gmail.com
