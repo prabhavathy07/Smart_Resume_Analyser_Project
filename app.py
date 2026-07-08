@@ -83,23 +83,25 @@ Resume:
 
 Give only 5 short resume improvement suggestions.
 """
-try:
-    response = model.generate_content(prompt)
-    ai_suggestion = response.text
 
-except Exception as e:
-    import traceback
+    try:
+        response = model.generate_content(prompt)
+        ai_suggestion = response.text
 
-    print("=" * 50)
-    print("Gemini Error:")
-    print(e)
-    traceback.print_exc()
-    print("=" * 50)
+    except Exception as e:
+        import traceback
 
-    ai_suggestion = f"AI Error: {e}"
+        print("=" * 50)
+        print("Gemini Error:")
+        print(e)
+        traceback.print_exc()
+        print("=" * 50)
+
+        ai_suggestion = f"AI Error: {e}"
+
     # Chart
     generate_chart(score, ats)
-
+    
     # PDF
     generate_pdf(
         job_role,
@@ -142,6 +144,7 @@ except Exception as e:
         suggestion=suggestion,
         ai_suggestion=ai_suggestion
     )
+
 
 
 # ---------------- Download PDF ----------------
