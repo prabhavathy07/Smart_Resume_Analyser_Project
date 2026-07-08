@@ -97,8 +97,10 @@ Give only 5 short resume improvement suggestions.
         traceback.print_exc()
         print("=" * 50)
 
-        ai_suggestion = f"AI Error: {e}"
-
+        ai_suggestion = f"""
+        AI Error:
+        {e}
+        """  
     # Chart
     generate_chart(score, ats)
     
