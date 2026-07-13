@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Interview Questions</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+ <h1>🎤 AI Interview Questions</h1>
+
+<p>Select Job Role</p>
+
+<form action="{{ url_for('interview') }}" method="POST">
+
+    <select name="job_role" required>
+        <option value="">-- Select Role --</option>
+        <option value="Python Developer">Python Developer</option>
+        <option value="Data Analyst">Data Analyst</option>
+        <option value="Web Developer">Web Developer</option>
+    </select>
+
+    <br><br>
+
+    <button type="submit">
+        🎤 Generate Questions
+    </button>
+
+</form>
+
+<br><br>
+
+<a href="{{ url_for('dashboard') }}">
+    <button>⬅ Back to Dashboard</button>
+</a>
+
+</div>
+
+</body>
+</html>

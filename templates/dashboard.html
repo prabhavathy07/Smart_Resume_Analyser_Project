@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Welcome {{ username }}</h1>
+
+    <p>You have successfully logged in.</p>
+
+    <br><br>
+
+    <a href="{{ url_for('home') }}">
+        <button>Resume Analyzer</button>
+    </a>
+
+    <br><br>
+
+<a href="{{ url_for('rewrite_page') }}">
+    <button>Resume Rewrite</button>
+</a>
+
+<br><br>
+
+<a href="{{ url_for('interview_page') }}">
+    <button>Interview Questions</button>
+</a>
+
+    <br><br>
+
+    <a href="{{ url_for('history') }}">
+        <button>History</button>
+    </a>
+
+    <br><br>
+
+    <a href="{{ url_for('logout') }}">
+        <button>Logout</button>
+    </a>
+  
+</div>
+
+</body>
+</html>

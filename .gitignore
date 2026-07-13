@@ -1,6 +1,6 @@
-.env
-*.db
 __pycache__/
 *.pyc
-output/report.txt
-data/.env/
+.env
+resume_history.db
+resume_report.pdf
+static/images/chart.png

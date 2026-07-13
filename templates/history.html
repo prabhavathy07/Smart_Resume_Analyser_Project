@@ -35,12 +35,9 @@
 <tr>
 
 <td>{{ row[0] }}</td>
-
-<td>{{ row[1] }}</td>
-
-<td>{{ row[2] }}%</td>
-
+<td>{{ row[2] }}</td>
 <td>{{ row[3] }}%</td>
+<td>{{ row[4] }}%</td>
 
 </tr>
 
@@ -50,7 +47,9 @@
 
 <br>
 
-<a href="/">⬅ Back to Home</a>
+<a href="{{ url_for('dashboard') }}">
+    <button>⬅ Back to Dashboard</button>
+</a>
 
 </div>
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Resume Rewrite</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>AI Resume Rewrite</h1>
+
+    <p>Upload your resume to rewrite it professionally.</p>
+
+    <form action="/rewrite" method="POST" enctype="multipart/form-data">
+
+        <input
+            type="file"
+            name="resume"
+            accept=".pdf,.txt"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Rewrite Resume
+        </button>
+
+    </form>
+
+    <br><br>
+
+    <a href="{{ url_for('dashboard') }}">
+        <button>Back to Dashboard</button>
+    </a>
+
+</div>
+
+</body>
+</html>

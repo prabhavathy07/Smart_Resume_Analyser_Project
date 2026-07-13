@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, redirect, url_for, session, send_file
 import google.generativeai as genai
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from src.resume_reader import read_resume
 from src.skill_analyser import (
@@ -9,13 +10,20 @@ from src.skill_analyser import (
     get_suggestion,
     ats_score
 )
+
 from src.chart_generator import generate_chart
-from src.database import create_database, save_history, get_history
+
+from src.database import (
+    create_database,
+    save_history,
+    get_history,
+    create_user,
+    login_user
+)
+
 from src.pdf_generator import generate_pdf
 from src.email_sender import send_email
 from src.job_roles import roles
-
-# ---------------- Gemini ----------------
 
 import os
 from dotenv import load_dotenv
@@ -25,23 +33,119 @@ load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 model = genai.GenerativeModel("gemini-2.5-flash")
-# ---------------- Flask ----------------
 
 app = Flask(__name__)
+app.secret_key = "resume_analyzer_secret_key"
 
 create_database()
+
 
 # ---------------- Home ----------------
 
 @app.route("/")
 def home():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
     return render_template("index.html")
 
+
+# ---------------- Signup ----------------
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+
+    if request.method == "POST":
+
+        name = request.form["name"]
+        email = request.form["email"]
+        password = request.form["password"]
+
+        hashed_password = generate_password_hash(password)
+
+        if create_user(name, email, hashed_password):
+            return redirect(url_for("login"))
+        else:
+            return "Email already exists!"
+
+    return render_template("signup.html")
+
+# ---------------- Login ----------------
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+
+        email = request.form["email"]
+        password = request.form["password"]
+
+        user = login_user(email)
+
+        if user and check_password_hash(user[3], password):
+
+            session["user_id"] = user[0]
+            session["user_name"] = user[1]
+
+            return redirect(url_for("dashboard"))
+
+        else:
+            return "Invalid Email or Password"
+
+    return render_template("login.html")
+
+
+# ---------------- Dashboard ----------------
+
+@app.route("/dashboard")
+def dashboard():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    return render_template(
+        "dashboard.html",
+        username=session["user_name"]
+    )
+
+
+# ---------------- Logout ----------------
+
+@app.route("/logout")
+def logout():
+
+    session.clear()
+
+    return redirect(url_for("login"))
+
+# ---------------- Rewrite Page ----------------
+
+@app.route("/rewrite-page")
+def rewrite_page():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    return render_template("rewrite_page.html")
+
+# ---------------- Interview Page ----------------
+
+@app.route("/interview-page")
+def interview_page():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    return render_template("interview_page.html")
 
 # ---------------- Analyze ----------------
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
     job_role = request.form["job_role"]
     email = request.form.get("email")
@@ -98,13 +202,12 @@ Give only 5 short resume improvement suggestions.
         print("=" * 50)
 
         ai_suggestion = f"""
-        AI Error:
-        {e}
-        """  
-    # Chart
+AI Error:
+{e}
+"""
+
     generate_chart(score, ats)
-    
-    # PDF
+
     generate_pdf(
         job_role,
         score,
@@ -114,17 +217,14 @@ Give only 5 short resume improvement suggestions.
         ai_suggestion
     )
 
-    # Email
     if email:
         try:
             send_email(email)
         except Exception as e:
             print("Email Error:", e)
+    print("Saving History:", session["user_id"], job_role, score, ats)
+    save_history(session["user_id"], job_role, score, ats)
 
-    # Save History
-    save_history(job_role, score, ats)
-
-    # Score Color
     if score >= 80:
         score_color = "#28a745"
     elif score >= 50:
@@ -147,22 +247,13 @@ Give only 5 short resume improvement suggestions.
         ai_suggestion=ai_suggestion
     )
 
-
-
-# ---------------- Download PDF ----------------
-
-@app.route("/download")
-def download():
-    return send_file(
-        "resume_report.pdf",
-        as_attachment=True
-    )
-
-
-# ---------------- History ----------------
+# ---------------- Interview ----------------
 
 @app.route("/interview", methods=["POST"])
 def interview():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
     job_role = request.form["job_role"]
 
@@ -185,8 +276,15 @@ Number them.
         job_role=job_role,
         questions=questions
     )
+
+
+# ---------------- Rewrite ----------------
+
 @app.route("/rewrite", methods=["POST"])
 def rewrite():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
     file = request.files["resume"]
 
@@ -218,12 +316,18 @@ Resume:
     return render_template(
         "rewrite.html",
         rewritten_resume=rewritten_resume
-    ) 
+    )
+
+
+# ---------------- History ----------------
 
 @app.route("/history")
 def history():
 
-    history_data = get_history()
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    history_data = get_history(session["user_id"])
 
     return render_template(
         "history.html",
@@ -231,9 +335,21 @@ def history():
     )
 
 
-# ---------------- Run ----------------
+# ---------------- Download PDF ----------------
 
-import os
+@app.route("/download")
+def download():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    return send_file(
+        "resume_report.pdf",
+        as_attachment=True
+    )
+
+
+# ---------------- Run ----------------
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
